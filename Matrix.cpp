@@ -43,6 +43,12 @@ class Matrix{
 				}
 			}
 		}
+		Matrix(double* original, int r, int c){
+			rows= r;
+			cols= c;
+			int originalSize= r*c;
+			// To be continued...
+		}
 		~Matrix(){
 			this->clear();
 		}
@@ -92,19 +98,5 @@ ostream & operator << (ostream &out, const Matrix &matrix)
 }
 
 int main(){
-	Matrix mat(2,7);
-	cout << mat;
-	mat.reShape(2,2);
-	cout << mat;
-	double** thisMat= new double*[3];
-	for(int i=0;i<3;i++){
-		thisMat[i]= new double[3];
-	}
-	for(int i=0;i<3;i++){
-		for(int j=0;j<3;j++){
-			thisMat[i][j]= 1.1;
-		}
-	}
-	Matrix newMatrix(thisMat,3,3);
-	cout << newMatrix;
+
 }
