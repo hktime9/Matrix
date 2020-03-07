@@ -35,11 +35,11 @@ class Matrix{
 			cols= c;
 			matrix= new double*[rows];
 			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols]
+				matrix[i]= new double[cols];
 			}
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
-					matrix[i][j]= original[i][j]
+					matrix[i][j]= original[i][j];
 				}
 			}
 		}
@@ -96,4 +96,15 @@ int main(){
 	cout << mat;
 	mat.reShape(2,2);
 	cout << mat;
+	double** thisMat= new double*[3];
+	for(int i=0;i<3;i++){
+		thisMat[i]= new double[3];
+	}
+	for(int i=0;i<3;i++){
+		for(int j=0;j<3;j++){
+			thisMat[i][j]= 1.1;
+		}
+	}
+	Matrix newMatrix(thisMat,3,3);
+	cout << newMatrix;
 }
