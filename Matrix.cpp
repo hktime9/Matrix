@@ -47,7 +47,17 @@ class Matrix{
 			rows= r;
 			cols= c;
 			int originalSize= r*c;
-			// To be continued...
+			matrix= new double*[rows];
+			for(int i=0;i<rows;i++){
+				matrix[i]= new double[cols];
+			}
+			int index= 0;
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					matrix[i][j]= original[index];
+					index++;
+				}
+			}
 		}
 		~Matrix(){
 			this->clear();
@@ -98,5 +108,7 @@ ostream & operator << (ostream &out, const Matrix &matrix)
 }
 
 int main(){
-
+	double test[9]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
+	Matrix m(test,3,3);
+	cout << m;
 }
