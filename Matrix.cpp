@@ -19,7 +19,7 @@ class Matrix{
 			}
 			delete matrix;			
 		}
-		friend ostream& operator <<(ostream& os, const Matrix &mat);
+		friend ostream & operator << (ostream &out, Matrix const &m);
 	public:
 		Matrix(int r, int c){
 			rows= r;
@@ -81,22 +81,52 @@ class Matrix{
 		void zeros(){
 			this->init();
 		}
+		void multiply(int num){
+			double cast= double(num);
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					matrix[i][j]*= cast;
+				}
+			}
+		}
+		void multiply(double num){
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					matrix[i][j]*= num;
+				}
+			}	
+		}
+		void add(int num){
+			double cast= double(num);
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					matrix[i][j]+= cast;
+				}
+			}
+		}
+		void subtract(int num){
+			this->add(-1*num);
+		}
+		void divide(int num){
+			double cast= double(num);
+			cast= 1/cast;
+			this->multiply(cast);
+		}
 };
 
-ostream & operator << (ostream &out, const Matrix &matrix)
-{
+ostream & operator << (ostream &out, Matrix const &m){
 	out << "[";
-	for(int i=0;i<matrix.rows;i++){
+	for(int i=0;i<m.rows;i++){
 		if(i==0){
 			out << "[ ";
 		}
 		else{
 			out << " [ ";
 		}
-		for(int j=0;j<matrix.cols;j++){
-			out << matrix.matrix[i][j] << " ";
+		for(int j=0;j<m.cols;j++){
+			out << m.matrix[i][j] << " ";
 		}
-		if(i==matrix.rows-1){
+		if(i==m.rows-1){
 			out << "]";
 		}
 		else{
@@ -107,8 +137,11 @@ ostream & operator << (ostream &out, const Matrix &matrix)
 	return out;
 }
 
+
+
 int main(){
-	double test[9]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
-	Matrix m(test,3,3);
+	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
+	Matrix m(test,2,9);
+	m.subtract(3);
 	cout << m;
 }
