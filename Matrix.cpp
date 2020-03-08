@@ -154,6 +154,23 @@ class Matrix{
 				_Exit(10);
 			}
 		}
+		Matrix dot(Matrix toDot){
+			try{
+				if(toDot.getRows()!=cols){
+					string rowStr= to_string(toDot.getRows());
+					string colStr= to_string(toDot.getCols());
+					string error= "Error:: Shapes ("+to_string(rows)+", "+to_string(cols)+") and ("+rowStr+", "+colStr+") do not align";
+					throw(error);
+				}
+				Matrix dotProd(rows, toDot.cols);
+				// Dot-Product code here
+				return dotProd;
+			}
+			catch(string errorMessage){
+				cout << errorMessage << endl;
+				_Exit(10);
+			}
+		}
 };
 
 ostream & operator << (ostream &out, Matrix const &m){
