@@ -1,4 +1,8 @@
 #include <iostream>
+#include <tuple>
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <string>
 
 using namespace std;
 
@@ -59,6 +63,19 @@ class Matrix{
 				}
 			}
 		}
+		Matrix(const Matrix &m){
+			rows= m.rows;
+			cols= m.cols;
+			matrix= new double*[rows];
+			for(int i=0;i<rows;i++){
+				matrix[i]= new double[cols];
+			}
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					matrix[i][j]= m.matrix[i][j];
+				}
+			}
+		}
 		~Matrix(){
 			this->clear();
 		}
@@ -68,6 +85,10 @@ class Matrix{
 		int getCols(){
 			return cols;
 		}
+		tuple<int,int> shape(){
+			return make_tuple(rows, cols);
+		}
+
 		void reShape(int newRow, int newCol){
 			this->clear();
 			rows= newRow;
@@ -112,6 +133,27 @@ class Matrix{
 			cast= 1/cast;
 			this->multiply(cast);
 		}
+		Matrix add(Matrix toAdd){
+			try{
+				if((toAdd.getRows()!=rows)||(toAdd.getCols()!=cols)){
+					string rowStr= to_string(toAdd.getRows());
+					string colStr= to_string(toAdd.getCols());
+					string error= "Error:: Shapes ("+to_string(rows)+", "+to_string(cols)+") and ("+rowStr+", "+colStr+") mismatch";
+					throw(error);
+				}
+				Matrix added(rows, cols);
+				for(int i=0;i<rows;i++){
+					for(int j=0;j<cols;j++){
+						added.matrix[i][j]= matrix[i][j]+toAdd.matrix[i][j];
+					}
+				}
+				return added;
+			}
+			catch(string errorMessage){
+				cout << errorMessage << endl;
+				_Exit(10);
+			}
+		}
 };
 
 ostream & operator << (ostream &out, Matrix const &m){
@@ -143,5 +185,6 @@ int main(){
 	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
 	Matrix m(test,2,9);
 	m.subtract(3);
-	cout << m;
+	Matrix yen= m;
+	cout << yen;
 }
