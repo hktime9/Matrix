@@ -179,12 +179,12 @@ ostream & operator << (ostream &out, Matrix const &m){
 	return out;
 }
 
-
-
 int main(){
 	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
 	Matrix m(test,2,9);
 	m.subtract(3);
 	Matrix yen= m;
+	cout << yen.add(m);
+	cout << endl;
 	cout << yen;
 }
