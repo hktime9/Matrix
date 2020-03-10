@@ -102,28 +102,34 @@ class Matrix{
 		void zeros(){
 			this->init();
 		}
-		void multiply(int num){
+		Matrix multiply(int num){
 			double cast= double(num);
+			Matrix result(rows, cols);
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
-					matrix[i][j]*= cast;
+					result.matrix[i][j]= matrix[i][j]*cast;
 				}
 			}
+			return result;
 		}
-		void multiply(double num){
+		Matrix multiply(double num){
+			Matrix result(rows, cols);
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
-					matrix[i][j]*= num;
-				}
-			}	
-		}
-		void add(int num){
-			double cast= double(num);
-			for(int i=0;i<rows;i++){
-				for(int j=0;j<cols;j++){
-					matrix[i][j]+= cast;
+					result.matrix[i][j]= matrix[i][j]*num;
 				}
 			}
+			return result;
+		}
+		Matrix add(int num){
+			double cast= double(num);
+			Matrix result(rows, cols);
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					result.matrix[i][j]= matrix[i][j]+cast;
+				}
+			}
+			return result;
 		}
 		void subtract(int num){
 			this->add(-1*num);
@@ -163,6 +169,13 @@ class Matrix{
 					throw(error);
 				}
 				Matrix dotProd(rows, toDot.cols);
+				for(int i= 0;i<rows;++i){
+			        for(int j= 0;j<toDot.getCols();++j){
+			            for(int k = 0;k<cols;++k){
+			            	dotProd.matrix[i][j]+= matrix[i][k]*toDot.matrix[k][j];
+			            }
+			        }
+				}
 				// Dot-Product code here
 				return dotProd;
 			}
@@ -197,11 +210,12 @@ ostream & operator << (ostream &out, Matrix const &m){
 }
 
 int main(){
-	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
-	Matrix m(test,2,9);
-	m.subtract(3);
-	Matrix yen= m;
-	cout << yen.add(m);
-	cout << endl;
-	cout << yen;
+	// double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
+	double test[18]= {1.1,1.2,1.3};
+	Matrix A(test,3,1);
+	Matrix B(test,1,3);
+	cout << A;
+	cout << B;
+	Matrix res= A.dot(B);
+	cout << res;
 }
