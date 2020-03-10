@@ -112,6 +112,9 @@ class Matrix{
 			}
 			return result;
 		}
+    	Matrix operator * (int num){ 
+         	return this->multiply(num);
+    	}
 		Matrix multiply(double num){
 			Matrix result(rows, cols);
 			for(int i=0;i<rows;i++){
@@ -121,6 +124,9 @@ class Matrix{
 			}
 			return result;
 		}
+    	Matrix operator * (double num){ 
+         	return this->multiply(num);
+    	}
 		Matrix add(int num){
 			double cast= double(num);
 			Matrix result(rows, cols);
@@ -131,14 +137,23 @@ class Matrix{
 			}
 			return result;
 		}
-		void subtract(int num){
-			this->add(-1*num);
+    	Matrix operator + (int num){ 
+         	return this->add(num);
+    	}
+		Matrix subtract(int num){
+			return this->add(-1*num);
 		}
-		void divide(int num){
+    	Matrix operator - (int num){ 
+         	return this->subtract(num);
+    	}
+		Matrix divide(int num){
 			double cast= double(num);
 			cast= 1/cast;
-			this->multiply(cast);
+			return this->multiply(cast);
 		}
+    	Matrix operator / (int num){ 
+         	return this->divide(num);
+    	}
 		Matrix add(Matrix toAdd){
 			try{
 				if((toAdd.getRows()!=rows)||(toAdd.getCols()!=cols)){
@@ -160,6 +175,15 @@ class Matrix{
 				_Exit(10);
 			}
 		}
+    	Matrix operator + (Matrix const &toAdd){ 
+         	return this->add(toAdd);
+    	}
+    	Matrix subtract(Matrix toSubtr){
+    		return this->add(toSubtr*-1);
+    	}
+    	Matrix operator - (Matrix const &toSubtr){ 
+         	return this->subtract(toSubtr);
+    	}
 		Matrix dot(Matrix toDot){
 			try{
 				if(toDot.getRows()!=cols){
@@ -176,13 +200,24 @@ class Matrix{
 			            }
 			        }
 				}
-				// Dot-Product code here
 				return dotProd;
 			}
 			catch(string errorMessage){
 				cout << errorMessage << endl;
 				_Exit(10);
 			}
+		}
+    	Matrix operator * (Matrix toDot){ 
+         	return this->dot(toDot);
+    	}
+		Matrix T(){
+			Matrix transposed(cols, rows);
+		    for(int i= 0;i<rows;++i){
+        		for(int j= 0; j<cols;++j){
+        			transposed.matrix[j][i]= matrix[i][j];
+        		}
+		    }
+		    return transposed;
 		}
 };
 
@@ -210,12 +245,11 @@ ostream & operator << (ostream &out, Matrix const &m){
 }
 
 int main(){
-	// double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
-	double test[18]= {1.1,1.2,1.3};
-	Matrix A(test,3,1);
-	Matrix B(test,1,3);
+	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
+	// double test[18]= {1.1,1.2,1.3};
+	Matrix A(test,6,3);
+	Matrix B(test,3,6);
 	cout << A;
 	cout << B;
-	Matrix res= A.dot(B);
-	cout << res;
+	cout << A*B;
 }
