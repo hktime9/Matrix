@@ -16,9 +16,9 @@ class Matrix{
 		int rows, cols;
 		double** matrix;
 		void init(){
-			for(int i=0;i<rows;i++){
-				for(int j=0;j<cols;j++){
-					matrix[i][j]= 0.0;
+			for(int i=0;i<this->rows;i++){
+				for(int j=0;j<this->cols;j++){
+					this->matrix[i][j]= 0.0;
 				}
 			}
 		}
@@ -37,11 +37,11 @@ class Matrix{
 		friend ostream & operator << (ostream &out, Matrix const &m);
 	public:
 		Matrix(int r, int c){
-			rows= r;
-			cols= c;
-			matrix= new double*[rows];
-			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols];
+			this->rows= r;
+			this->cols= c;
+			this->matrix= new double*[rows];
+			for(int i=0;i<r;i++){
+				this->matrix[i]= new double[c];
 			}
 			this->init();
 		}
@@ -81,16 +81,14 @@ class Matrix{
 			for(int i=0;i<rows;i++){
 				matrix[i]= new double[cols];
 			}
-			srand((unsigned)time(NULL));
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
-
 					matrix[i][j]= this->randomNumber(lowerB, upperB);
 				}
 			}
-
 		}
 		Matrix(const Matrix &m){
+			this->clear();
 			rows= m.rows;
 			cols= m.cols;
 			matrix= new double*[rows];
@@ -181,11 +179,11 @@ class Matrix{
     	Matrix operator / (int num){ 
          	return this->divide(num);
     	}
-		Matrix add(Matrix toAdd){
+		Matrix add(Matrix const &toAdd){
 			try{
-				if((toAdd.getRows()!=rows)||(toAdd.getCols()!=cols)){
-					string rowStr= to_string(toAdd.getRows());
-					string colStr= to_string(toAdd.getCols());
+				if((toAdd.rows!=rows)||(toAdd.cols!=cols)){
+					string rowStr= to_string(toAdd.rows);
+					string colStr= to_string(toAdd.cols);
 					string error= "Error:: Shapes ("+to_string(rows)+", "+to_string(cols)+") and ("+rowStr+", "+colStr+") mismatch";
 					throw(error);
 				}
@@ -205,23 +203,26 @@ class Matrix{
     	Matrix operator + (Matrix const &toAdd){ 
          	return this->add(toAdd);
     	}
-    	Matrix subtract(Matrix toSubtr){
-    		return this->add(toSubtr*-1);
+    	Matrix subtract(Matrix const &toSubtr){
+    		Matrix minus= toSubtr;
+    		minus= minus*-1;
+    		return this->add(minus);
     	}
     	Matrix operator - (Matrix const &toSubtr){ 
          	return this->subtract(toSubtr);
     	}
-		Matrix dot(Matrix toDot){
+		Matrix dot(Matrix const &toDot){
 			try{
-				if(toDot.getRows()!=cols){
-					string rowStr= to_string(toDot.getRows());
-					string colStr= to_string(toDot.getCols());
+				if(toDot.rows!=this->cols){
+					cout << "mult error";
+					string rowStr= to_string(toDot.rows);
+					string colStr= to_string(toDot.cols);
 					string error= "Error:: Shapes ("+to_string(rows)+", "+to_string(cols)+") and ("+rowStr+", "+colStr+") do not align";
 					throw(error);
 				}
 				Matrix dotProd(rows, toDot.cols);
 				for(int i= 0;i<rows;++i){
-			        for(int j= 0;j<toDot.getCols();++j){
+			        for(int j= 0;j<toDot.cols;++j){
 			            for(int k = 0;k<cols;++k){
 			            	dotProd.matrix[i][j]+= matrix[i][k]*toDot.matrix[k][j];
 			            }
@@ -234,7 +235,7 @@ class Matrix{
 				_Exit(10);
 			}
 		}
-    	Matrix operator * (Matrix toDot){ 
+    	Matrix operator * (Matrix const &toDot){ 
          	return this->dot(toDot);
     	}
 		Matrix T(){
