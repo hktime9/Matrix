@@ -32,11 +32,7 @@ class Matrix{
 			return (1)/(1+exp(-1*num));
 		}
 		double randomNumber(double lowerB, double upperB){
-			srand (time(NULL));
-			random_device rd;
-			mt19937 gen(rd());
-			uniform_real_distribution<> dis(lowerB, upperB);//uniform distribution between 0 and 1
-			return dis(gen);
+			return (lowerB + static_cast <float> (rand()) /( static_cast <float> (RAND_MAX/(upperB))));
 		}
 		friend ostream & operator << (ostream &out, Matrix const &m);
 	public:
@@ -85,7 +81,7 @@ class Matrix{
 			for(int i=0;i<rows;i++){
 				matrix[i]= new double[cols];
 			}
-			
+			srand((unsigned)time(NULL));
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
 
@@ -284,12 +280,12 @@ ostream & operator << (ostream &out, Matrix const &m){
 	return out;
 }
 
-int main(){
-	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
-	double i[18]= {1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0};
-	Matrix A(test,3,3);
-	Matrix B(i,3,3);
-	cout << A;
-	cout << B;
-	cout << A*B;
-}
+// int main(){
+// 	double test[18]= {1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9};
+// 	double i[18]= {1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0};
+// 	Matrix A(test,3,3);
+// 	Matrix B(i,3,3);
+// 	cout << A;
+// 	cout << B;
+// 	cout << A*B;
+// }
