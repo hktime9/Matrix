@@ -46,11 +46,11 @@ class Matrix{
 			this->init();
 		}
 		Matrix(double** original, int r, int c){
-			rows= r;
-			cols= c;
-			matrix= new double*[rows];
-			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols];
+			this->rows= r;
+			this->cols= c;
+			this->matrix= new double*[rows];
+			for(int i=0;i<r;i++){
+				this->matrix[i]= new double[c];
 			}
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
@@ -59,12 +59,11 @@ class Matrix{
 			}
 		}
 		Matrix(double* original, int r, int c){
-			rows= r;
-			cols= c;
-			int originalSize= r*c;
-			matrix= new double*[rows];
-			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols];
+			this->rows= r;
+			this->cols= c;
+			this->matrix= new double*[rows];
+			for(int i=0;i<r;i++){
+				this->matrix[i]= new double[c];
 			}
 			int index= 0;
 			for(int i=0;i<rows;i++){
@@ -75,29 +74,28 @@ class Matrix{
 			}
 		}
 		Matrix(int r, int c, double lowerB, double upperB){
-			rows= r;
-			cols= c;
-			matrix= new double*[rows];
-			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols];
+			this->rows= r;
+			this->cols= c;
+			this->matrix= new double*[rows];
+			for(int i=0;i<r;i++){
+				this->matrix[i]= new double[c];
 			}
 			for(int i=0;i<rows;i++){
 				for(int j=0;j<cols;j++){
-					matrix[i][j]= this->randomNumber(lowerB, upperB);
+					this->matrix[i][j]= this->randomNumber(lowerB, upperB);
 				}
 			}
 		}
 		Matrix(const Matrix &m){
-			this->clear();
-			rows= m.rows;
-			cols= m.cols;
-			matrix= new double*[rows];
-			for(int i=0;i<rows;i++){
-				matrix[i]= new double[cols];
+			this->rows= m.rows;
+			this->cols= m.cols;
+			this->matrix= new double*[rows];
+			for(int i=0;i<m.rows;i++){
+				this->matrix[i]= new double[m.cols];
 			}
-			for(int i=0;i<rows;i++){
-				for(int j=0;j<cols;j++){
-					matrix[i][j]= m.matrix[i][j];
+			for(int i=0;i<m.rows;i++){
+				for(int j=0;j<m.cols;j++){
+					this->matrix[i][j]= m.matrix[i][j];
 				}
 			}
 		}
@@ -181,7 +179,7 @@ class Matrix{
     	}
 		Matrix add(Matrix const &toAdd){
 			try{
-				if((toAdd.rows!=rows)||(toAdd.cols!=cols)){
+				if((toAdd.rows!=this->rows)||(toAdd.cols!=this->cols)){
 					string rowStr= to_string(toAdd.rows);
 					string colStr= to_string(toAdd.cols);
 					string error= "Error:: Shapes ("+to_string(rows)+", "+to_string(cols)+") and ("+rowStr+", "+colStr+") mismatch";
@@ -204,9 +202,8 @@ class Matrix{
          	return this->add(toAdd);
     	}
     	Matrix subtract(Matrix const &toSubtr){
-    		Matrix minus= toSubtr;
-    		minus= minus*-1;
-    		return this->add(minus);
+			Matrix copy= toSubtr;
+			return this->add(copy*(-1));
     	}
     	Matrix operator - (Matrix const &toSubtr){ 
          	return this->subtract(toSubtr);
