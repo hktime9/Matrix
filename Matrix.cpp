@@ -23,6 +23,8 @@ class Matrix{
 			}
 		}
 		void clear(){
+			rows= 0;
+			cols= 0;
 			for(int i=0;i<rows;i++){
 				delete matrix[i];
 			}
@@ -87,6 +89,7 @@ class Matrix{
 			}
 		}
 		Matrix(const Matrix &m){
+			this->clear();
 			this->rows= m.rows;
 			this->cols= m.cols;
 			this->matrix= new double*[rows];
@@ -252,6 +255,20 @@ class Matrix{
 				}
 			}
 			return copied;
+		}
+		void copy(Matrix const &toCopy){
+			this->clear();
+			rows= toCopy.rows;
+			cols= toCopy.cols;
+			this->matrix= new double*[rows];
+			for(int i=0;i<rows;i++){
+				this->matrix[i]= new double[cols];
+			}
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					this->matrix[i][j]= toCopy.matrix[i][j];
+				}
+			}	
 		}
 };
 
