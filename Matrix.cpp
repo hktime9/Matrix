@@ -9,8 +9,6 @@
 
 using namespace std;
 
-
-
 class Matrix{
 	private:
 		int rows, cols;
@@ -167,7 +165,7 @@ class Matrix{
          	return this->add(num);
     	}
 		Matrix subtract(int num){
-			return this->add(-1*num);
+			return this->add(num);
 		}
     	Matrix operator - (int num){ 
          	return this->subtract(num);
@@ -269,6 +267,15 @@ class Matrix{
 					this->matrix[i][j]= toCopy.matrix[i][j];
 				}
 			}	
+		}
+		double sum(){
+			double sum= 0;
+			for(int i=0;i<rows;i++){
+				for(int j=0;j<cols;j++){
+					sum+= matrix[i][j];
+				}
+			}
+			return sum;
 		}
 };
 
